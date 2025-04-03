@@ -4,9 +4,10 @@ class StringCalculator
 
         delimiter, numbers = extract_delimiter_and_numbers(numbers)
 
+        validate_consecutive_delimiters!(numbers, delimiter)
         validate_negatives(numbers, delimiter)
 
-        numbers.split(Regexp.union(delimiter)).map(&:to_i).sum
+        numbers.split(Regexp.union(delimiter)).reject(&:empty?).map(&:to_i).sum
     end
 
     private
@@ -31,6 +32,14 @@ class StringCalculator
     def validate_delimiter!(delimiter)
         raise "Invalid Input" if delimiter.match?(/[{}]/) || delimiter.empty?
     end
+
+    def validate_consecutive_delimiters!(numbers, delimiter)
+        delimiter_str = delimiter.is_a?(Regexp) ? delimiter.source : Regexp.escape(delimiter)
+
+        if numbers.match?(Regexp.new("#{delimiter_str}{2,}"))
+            raise "Invalid Input"
+        end
+    end    
 
     def validate_negatives(numbers, delimiter)
         negatives = numbers.split(Regexp.union(delimiter)).map(&:to_i).select { |n| n.negative? }
