@@ -47,5 +47,10 @@ RSpec.describe StringCalculator do
       expect(calculator.add("//+\n1+2")).to eq(3)
       expect { calculator.add("1+2") }.to raise_error("Invalid Input")
     end
+    it "raises an error for consecutive delimiters" do
+      calculator = StringCalculator.new
+      expect { calculator.add("//;\n1;;2") }.to raise_error("Invalid Input")
+      expect { calculator.add("//|\n3||4") }.to raise_error("Invalid Input")
+    end
   end
 end
