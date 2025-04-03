@@ -42,5 +42,10 @@ RSpec.describe StringCalculator do
       expect(calculator.add("//-\n1-2")).to eq(3)
       expect { calculator.add("//-1-2") }.to raise_error("Invalid Input")
     end
+    it "supports + as a valid delimiter if explicitly set" do
+      calculator = StringCalculator.new
+      expect(calculator.add("//+\n1+2")).to eq(3)
+      expect { calculator.add("1+2") }.to raise_error("Invalid Input")
+    end
   end
 end
