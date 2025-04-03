@@ -1,36 +1,39 @@
 class StringCalculator
     def add(numbers)
         return 0 if numbers.empty?
-        
+
+        delimiter, numbers = extract_delimiter_and_numbers(numbers)
+
+        validate_negatives(numbers, delimiter)
+
+        numbers.split(Regexp.union(delimiter)).map(&:to_i).sum
+    end
+
+    private
+
+    def extract_delimiter_and_numbers(numbers)
         if numbers.start_with?("//")
             delimiter_section, numbers = numbers.split("\n", 2)
 
             raise "Invalid Input" if numbers.nil?
 
             delimiter = delimiter_section[2..]
+            validate_delimiter!(delimiter)
 
-            if delimiter.match?(/[{}]/) || delimiter.empty?
-                raise "Invalid Input"
-            end
-
-            if delimiter != "-" && numbers.start_with?("-")
-                raise "Invalid Input"
-            end
-
-            delimiter = Regexp.escape(delimiter)
-            custom_delimiter = Regexp.new(delimiter)
-
+            [Regexp.new(Regexp.escape(delimiter)), numbers]
+        
         else
-
             raise "Invalid Input" if numbers.include?("+")
-            custom_delimiter = /[\n,]/
+            [/[\n,]/, numbers]
         end
+    end
 
-        num_list = numbers.split(Regexp.union(custom_delimiter)).map(&:to_i)
-        negatives = num_list.select { |n| n < 0 }
+    def validate_delimiter!(delimiter)
+        raise "Invalid Input" if delimiter.match?(/[{}]/) || delimiter.empty?
+    end
 
+    def validate_negatives(numbers, delimiter)
+        negatives = numbers.split(Regexp.union(delimiter)).map(&:to_i).select { |n| n.negative? }
         raise "negative numbers not allowed: #{negatives.join(', ')}" unless negatives.empty?
-
-        num_list.sum
     end
 end
