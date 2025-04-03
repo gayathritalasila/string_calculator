@@ -1,108 +1,84 @@
-# String Calculator TDD Kata
+# String Calculator - TDD Kata
 
-This project is an implementation of the **String Calculator** kata using **Test-Driven Development (TDD)** in **Ruby** with **RSpec** for testing.
+## Overview
 
-## 🚀 Project Overview
+This project is an implementation of the **String Calculator TDD Kata** using **Ruby on Rails**. The goal is to follow strict **Test-Driven Development (TDD) principles**, ensuring each commit represents a clear TDD step.
 
-The goal of this kata is to implement a `StringCalculator` class that provides an `add` method to sum numbers from a string input while following **TDD best practices**.
+## Features
 
-### 📌 **Requirements**
-- The `add` method accepts a **comma-separated** string of numbers and returns their **sum**.
-- It handles **empty strings** (`"" → 0`).
-- It supports **multiple numbers** (`"1,2,3" → 6`).
-- It allows **newlines (`\n`) as delimiters** (`"1\n2,3" → 6`).
-- It supports **custom delimiters** (`"//;\n1;2" → 3`).
-- It throws an **exception** for **negative numbers** (`"-1,-2"` → `"negative numbers not allowed: -1, -2"`).
+- Supports adding numbers in a string format.
+- Handles different delimiters (comma, newline, and custom delimiters).
+- Raises exceptions for invalid inputs and negative numbers.
+- Supports multiple custom delimiters.
+- Handles consecutive delimiters correctly.
 
----
+## Setup Instructions
 
-## ⚙️ **Project Setup**
+### Prerequisites
 
-### **Prerequisites**
-Ensure you have **Ruby** and **Bundler** installed:
+- Install **Ruby** (version 3.x recommended).
+- Install **Bundler**:  
+  ```sh
+  gem install bundler
+  ```
+- Clone the repository:  
+  ```sh
+  git clone https://github.com/yourusername/stringcalculator.git
+  cd stringcalculator
+  ```
+- Install dependencies:  
+  ```sh
+  bundle install
+  ```
 
+### Running Tests
+
+To run the test suite, use:  
 ```sh
-ruby -v     # Check Ruby version
-gem install bundler
+bundle exec rspec spec/string_calculator.rb
 ```
 
-### **1️⃣ Clone the Repository**
-```sh
-git clone https://github.com/YOUR_USERNAME/stringcalculator.git
-cd stringcalculator
-```
+## Usage
 
-### **2️⃣ Install Dependencies**
-```sh
-bundle install
-```
-
-### **3️⃣ Run Tests**
-Run the test suite to validate your implementation:
-
-```sh
-bundle exec rspec
-```
-
----
-
-## 🛠 **TDD Workflow**
-This project follows **TDD (Test-Driven Development)**:
-1. **Write a failing test** (Red).
-2. **Implement just enough code to pass** (Green).
-3. **Refactor the code** (Refactor).
-
----
-
-## 💜 **Example Usage**
-You can use the `StringCalculator` class in an interactive Ruby session (`irb`) or in a script.
+The `StringCalculator#add` method processes input strings and returns the sum of numbers.
 
 ```ruby
-require_relative "./lib/string_calculator"
-
 calculator = StringCalculator.new
-puts calculator.add("")       # Output: 0
-puts calculator.add("1")      # Output: 1
-puts calculator.add("1,2,3")  # Output: 6
-puts calculator.add("1\n2,3") # Output: 6
-puts calculator.add("//;\n1;2") # Output: 3
+
+puts calculator.add("")        # => 0
+puts calculator.add("1")       # => 1
+puts calculator.add("1,2,3")   # => 6
+puts calculator.add("1\n2,3")  # => 6
+puts calculator.add("//;\n1;2") # => 3
 ```
 
----
+### Error Handling
 
-## ✅ **Test Cases**
-| Input            | Expected Output |
-|-----------------|---------------|
-| `""`            | `0`           |
-| `"1"`           | `1`           |
-| `"1,2"`         | `3`           |
-| `"1,2,3,4"`     | `10`          |
-| `"1\n2,3"`      | `6`           |
-| `"//;\n1;2"`    | `3`           |
-| `"-1,-2"`       | Exception: `"negative numbers not allowed: -1, -2"` |
+- `calculator.add("1,-2,3")` raises: `"negative numbers not allowed: -2"`
+- `calculator.add("//;\n1;;2")` raises: `"Invalid Input"`
 
----
+## TDD Process
 
-## 📌 **Commit History (Following TDD)**
-Each commit represents a **TDD step**:
-- ✅ **Step 1:** Create initial failing test for an empty string (`"" → 0`).
-- ✅ **Step 2:** Implement `add` method to handle a single number.
-- ✅ **Step 3:** Add support for multiple numbers.
-- ✅ **Step 4:** Allow newline (`\n`) as a delimiter.
-- ✅ **Step 5:** Support custom delimiters.
-- ✅ **Step 6:** Handle negative numbers by raising an exception.
+The development followed a strict **Red-Green-Refactor** cycle:
 
----
+1. **Red** – Write a failing test.
+2. **Green** – Implement minimal code to pass the test.
+3. **Refactor** – Improve code structure while keeping tests green.
 
-## 💜 **Project Structure**
-```
-stringcalculator/
-│── lib/
-│   ├── string_calculator.rb  # Implementation
-│── spec/
-│   ├── string_calculator_spec.rb  # RSpec Tests
-│── Gemfile   # Dependencies
-│── .rspec    # RSpec configuration
-│── spec/spec_helper.rb  # Test setup
-│── README.md  # Project documentation
-```
+### Example Commit Messages
+
+#### `feat` (Feature Implementation)
+- `feat: Add support for custom delimiters`
+- `feat: Raise exception for negative numbers`
+- `feat: Handle multiple custom delimiters`
+
+#### `test` (Adding Test Cases)
+- `test: Add test for custom delimiter handling`
+- `test: Verify exception for consecutive delimiters`
+- `test: Add edge case test for single number`
+
+#### `refactor` (Code Cleanup)
+- `refactor: Extract delimiter validation into a separate method`
+- `refactor: Improve error handling for invalid input`
+- `refactor: Optimize delimiter regex for better readability`
+
