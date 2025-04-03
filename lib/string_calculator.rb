@@ -5,6 +5,10 @@ class StringCalculator
         if numbers.start_with?("//")
             delimiter, numbers = numbers.split("\n", 2)
             delimiter = delimiter[2..]
+
+            if delimiter.match?(/[{}]/) || delimiter.empty?
+                raise "Invalid Input"
+            end
         else
             delimiter = /[\n,]/
         end
