@@ -17,11 +17,16 @@ class StringCalculator
                 raise "Invalid Input"
             end
 
+            delimiter = Regexp.escape(delimiter)
+            custom_delimiter = Regexp.new(delimiter)
+
         else
-            delimiter = /[\n,]/
+
+            raise "Invalid Input" if numbers.include?("+")
+            custom_delimiter = /[\n,]/
         end
 
-        num_list = numbers.split(Regexp.union(delimiter)).map(&:to_i)
+        num_list = numbers.split(Regexp.union(custom_delimiter)).map(&:to_i)
         negatives = num_list.select { |n| n < 0 }
 
         raise "negative numbers not allowed: #{negatives.join(', ')}" unless negatives.empty?
